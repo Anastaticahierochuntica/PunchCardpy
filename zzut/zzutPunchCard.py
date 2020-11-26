@@ -89,14 +89,14 @@ def modify_zzut_full_values(cookie, **data):
 
 # 打印日志
 def write_log_file(number, results):
-    if not os.path.exists(BASE_DIR+'\\zzut\\log'):
-        os.makedirs(BASE_DIR+'\\zzut\\log')
-    elif not os.path.isdir(BASE_DIR+'\\zzut\\log'):
-        os.remove(BASE_DIR+'\\zzut\\log')
-        os.makedirs(BASE_DIR+'\\zzut\\log')
+    if not os.path.exists(BASE_DIR+'/zzut/log'):
+        os.makedirs(BASE_DIR+'/zzut/log')
+    elif not os.path.isdir(BASE_DIR+'/zzut/log'):
+        os.remove(BASE_DIR+'/zzut/log')
+        os.makedirs(BASE_DIR+'/zzut/log')
 
     # 以追加形式打开日志文件
-    log_file = open(BASE_DIR+'\\zzut\\log\\punchcard.log',
+    log_file = open(BASE_DIR+'/zzut/log/punchcard.log',
                     'a', encoding='UTF-8')
     log_file.write(number+'\t')
     log_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+'\t')
@@ -188,15 +188,15 @@ def write_temp_report_file(content):
     file_name = datetime.now().strftime("%Y-%m-%d")
     file_name += "_report_file.txt"
     file_status = 0
-    if not os.path.isfile(BASE_DIR+'\\zzut\\log\\'+file_name):
+    if not os.path.isfile(BASE_DIR+'/zzut/log/'+file_name):
         file_status = 1
 
     # 以追加形式打开日志文件
-    report_file = open(BASE_DIR+'\\zzut\\log\\'+file_name,
+    report_file = open(BASE_DIR+'/zzut/log/'+file_name,
                        'a', encoding='UTF-8')
     if file_status == 1:
         inform_account_json_file = read_json_file(
-            BASE_DIR+"\\zzut\\data\\mail_user.json")
+            BASE_DIR+"/zzut/data/mail_user.json")
         inform_content = inform_account_json_file["content_css"]
         report_file.write(inform_content)
     report_file.write(content)
@@ -208,7 +208,7 @@ def report_mail():
     file_name = datetime.now().strftime("%Y-%m-%d")
     file_name += "_report_file.txt"
     # 读取报告文件
-    report_file = open(BASE_DIR+'\\zzut\\log\\' +
+    report_file = open(BASE_DIR+'/zzut/log/' +
                        file_name, "r", encoding='UTF-8')
     report_file_str = ""
     for line in report_file:
@@ -216,7 +216,7 @@ def report_mail():
     report_file.close()
 
     inform_account_json_file = read_json_file(
-        BASE_DIR+"\\zzut\\data\\mail_user.json")
+        BASE_DIR+"/zzut/data/mail_user.json")
     send_mail(server=inform_account_json_file["server"], user=inform_account_json_file["user"], passwd=inform_account_json_file["passwd"],
               subject=inform_account_json_file["subject"], to_user=inform_account_json_file["to_user"], content=report_file_str)
 
@@ -225,6 +225,6 @@ def report_mail():
 # 程序起点
 sched = BlockingScheduler()
 sched.add_job(auto_add_zzut_values, 'cron',
-              day_of_week='0-6', hour=6, minute=30, args=[BASE_DIR+"\\zzut\\data\\name_table_values.json"])
+              day_of_week='0-6', hour=6, minute=30, args=[BASE_DIR+"/zzut/data/name_table_values.json"])
 sched.add_job(report_mail, 'cron', day_of_week='0-6', hour=9, minute=0)
 sched.start()
