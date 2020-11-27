@@ -6,11 +6,14 @@ from datetime import datetime
 import os
 import sys
 from apscheduler.schedulers.blocking import BlockingScheduler
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))
 # __file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
 
-from plugin.zzut.cookie import *
+from plugin.zzut.cookie import refresh_cookie
+from plugin.zzut.cookie import get_login_cookie
+from plugin.zzut.cookie import get_cookies
 from plugin.zzut.add_record import add_record
 from plugin.universal.send_mail import send_mail
 from plugin.universal.read_json_file import read_json_file
@@ -219,12 +222,3 @@ def report_mail():
         BASE_DIR+"/zzut/data/mail_user.json")
     send_mail(server=inform_account_json_file["server"], user=inform_account_json_file["user"], passwd=inform_account_json_file["passwd"],
               subject=inform_account_json_file["subject"], to_user=inform_account_json_file["to_user"], content=report_file_str)
-
-
-# 定时任务
-# 程序起点
-sched = BlockingScheduler()
-sched.add_job(auto_add_zzut_values, 'cron',
-              day_of_week='0-6', hour=6, minute=30, args=[BASE_DIR+"/zzut/data/name_table_values.json"])
-sched.add_job(report_mail, 'cron', day_of_week='0-6', hour=9, minute=0)
-sched.start()
