@@ -7,3 +7,5 @@ if [ ! -d ../log ]; then
 fi
 
 nohup python3 ./zzut_punchcard_start.py >>../log/runtime.log 2>>../log/runtime.log &
+
+echo "服务开启"
