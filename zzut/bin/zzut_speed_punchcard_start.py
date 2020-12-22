@@ -8,8 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 # __file__获取执行文件相对路径，整行为取上一级的上一级的上一级目录
 sys.path.append(BASE_DIR)
 
-from plugin.zzut.zzut_punchcard import report_mail
-from plugin.zzut.zzut_punchcard import auto_add_zzut_values
+from plugin.zzut.zzut_punchcard import report_mail, auto_add_zzut_values
 
 # 定时任务
 # 程序起点

@@ -35,7 +35,7 @@ def get_cookies(url):
             return cookies_str
         except Exception as identifier:
             logging.warning("{0}  获取cookie出错".format(re.compile(
-                r'(?<=userAccount=)\d+\.?\d*').findall("url")[0]))
+                r'(?<=userAccount=)\d+\.?\d*').findall(url)[0]))
             logging.warning(identifier)
             time.sleep(5*60)
 
