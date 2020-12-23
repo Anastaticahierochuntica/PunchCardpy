@@ -26,7 +26,9 @@ def get_cookies(url):
             firefox_options.add_argument('-headless')
             driver = Firefox(firefox_options=firefox_options)
             driver.get(url)
+            time.sleep(2)
             driver.refresh()
+            time.sleep(2)
             cookies = driver.get_cookies()
             driver.close()
 

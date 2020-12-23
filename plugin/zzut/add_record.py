@@ -28,7 +28,7 @@ def add_record(url, headers, **data):
         return_code = json.loads(logInfo)
         return return_code
     except Exception as identifier:
-        logging.warning("{0}  获取cookie出错".format(re.compile(
+        logging.warning("{0}  打卡出错".format(re.compile(
                 r'(?<=userAccount=)\d+\.?\d*').findall(url)[0]))
         logging.warning(identifier)
         time.sleep(5*60)
