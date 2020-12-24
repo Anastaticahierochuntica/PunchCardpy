@@ -1,6 +1,6 @@
 import smtplib
 from email.mime.text import MIMEText
-
+import logging
 
 # server 定义服务
 # user 账号
@@ -8,6 +8,8 @@ from email.mime.text import MIMEText
 # content 内容
 # subject 设置主题
 # to_user 收件人
+
+
 def send_mail(server, user, passwd, content, subject, to_user):
     message = MIMEText(content, "HTML")
     message["subject"] = subject
@@ -20,4 +22,5 @@ def send_mail(server, user, passwd, content, subject, to_user):
                             msg=message.as_string())  # 发送
         smtp_email.quit()  # 断开退出邮箱
     except Exception as e:
-        print(e)
+        logging.warning("邮件发送失败")
+        logging.warning(e)

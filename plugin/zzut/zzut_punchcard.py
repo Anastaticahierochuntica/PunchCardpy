@@ -1,22 +1,21 @@
 # -*- coding: UTF-8 -*-
+
 import json
 from fake_useragent import UserAgent
 import urllib.request
 from datetime import datetime
 import os
 import sys
-from apscheduler.schedulers.blocking import BlockingScheduler
 BASE_DIR = os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))))
 # __file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
 
-from plugin.zzut.cookie import refresh_cookie
-from plugin.zzut.cookie import get_login_cookie
-from plugin.zzut.cookie import get_cookies
-from plugin.zzut.add_record import add_record
-from plugin.universal.send_mail import send_mail
+from plugin.zzut.cookie import refresh_cookie, get_login_cookie, get_cookies
 from plugin.universal.read_json_file import read_json_file
+from plugin.universal.send_mail import send_mail
+from plugin.zzut.add_record import add_record
+
 # address当前位置名称
 # class_and_grade 班级名称
 # current_position_number 当前位置行政编码，不是邮编
@@ -138,15 +137,17 @@ def auto_add_zzut_full_values(file_path):
             login_url_cookie = get_login_cookie(values["xh"])
         else:
             # 如果不为空，刷新cookie所有权
-            refresh_cookie(login_url_number=values["xh"],cookie=login_url_cookie)
+            refresh_cookie(
+                login_url_number=values["xh"], cookie=login_url_cookie)
 
         results = add_zzut_full_values(values=values, cookie=login_url_cookie)
         if 'code' in results:
             if results['code'] != "1":
                 # 有几率是已经打过卡造成的异常，但以防万一，重新获取专属cookie打卡一次
                 login_url_cookie = get_login_cookie(values["xh"])
-                results = add_zzut_full_values(values=values, cookie=login_url_cookie)
-                
+                results = add_zzut_full_values(
+                    values=values, cookie=login_url_cookie)
+
         inform_content_head += "<tr><td>%s</td><td>%s</td><td>%s</td></tr>" % (
             values["xh"], datetime.now().strftime("%Y-%m-%d %H:%M:%S"), analyse_status(results=results))
         write_log_file(number=values["xh"], results=results)
@@ -169,8 +170,9 @@ def auto_add_zzut_values(file_path):
             login_url_cookie = get_login_cookie(values["xh"])
         else:
             # 如果不为空，刷新cookie所有权
-            refresh_cookie(login_url_number=values["xh"],cookie=login_url_cookie)
-       
+            refresh_cookie(
+                login_url_number=values["xh"], cookie=login_url_cookie)
+
         results = add_zzut_values(address=values["dqwzmc"], class_and_grade=values["bjmc"], number=values["xh"],
                                   academy=values["szdwmc"], current_position_number=values["dqwz"], name=values["xm"], cookie=login_url_cookie)
         if 'code' in results:
@@ -178,8 +180,8 @@ def auto_add_zzut_values(file_path):
                 # 有几率是已经打过卡造成的异常，但以防万一，重新获取专属cookie打卡一次
                 login_url_cookie = get_login_cookie(values["xh"])
                 results = add_zzut_values(address=values["dqwzmc"], class_and_grade=values["bjmc"], number=values["xh"],
-                                  academy=values["szdwmc"], current_position_number=values["dqwz"], name=values["xm"], cookie=login_url_cookie)
-        
+                                          academy=values["szdwmc"], current_position_number=values["dqwz"], name=values["xm"], cookie=login_url_cookie)
+
         inform_content_head += "<tr><td>%s</td><td>%s</td><td>%s</td></tr>" % (
             values["xh"], datetime.now().strftime("%Y-%m-%d %H:%M:%S"), analyse_status(results=results))
         write_log_file(number=values["xh"], results=results)

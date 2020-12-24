@@ -14,11 +14,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 # __file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
 
-from plugin.universal.read_json_file import read_json_file
-from plugin.zzut.cookie import refresh_cookie, get_login_cookie
 from plugin.zzut.zzut_punchcard import write_log_file, write_temp_report_file, analyse_status, add_zzut_values
-
-
+from plugin.zzut.cookie import get_login_cookie
+from plugin.universal.read_json_file import read_json_file
 
 class Student:
     """
@@ -46,6 +44,8 @@ def auto_rd_add_zzut_values(file_path):
     random.shuffle(names_table)
     # 理论打卡间隔时间为3600/总人数+浏览器cookie获取时间（大约15-20s），计划分布在一个小时内，加上网络耗时，单个打卡预计20s+3600/总人数
     interval_time = 3600/len(names_table)
+    if interval_time > 20:
+        interval_time = interval_time-20
     # 邮件报告信息头与信息尾
     inform_content_head = "<table id=\"customers\"><tr><th>打卡学号</th><th>打卡时间</th><th>打卡状态</th></tr>"
     inform_content_tail = "</table>"
