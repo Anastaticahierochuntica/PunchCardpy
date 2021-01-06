@@ -14,6 +14,3 @@ from plugin.zzut.zzut_punchcard import auto_add_zzut_values
 
 # 基础数据打卡，数据路径为/zzut/data/name_table_values.json
 auto_add_zzut_values(BASE_DIR+"/zzut/data/name_table_values.json")
-
-# 全数据打卡，数据路径为/zzut/data/name_table_values.json
-# auto_add_zzut_full_values(BASE_DIR+"/zzut/data/name_table_values.json")

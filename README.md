@@ -87,3 +87,8 @@
 ### 2020-12-22
 
 1. 修复路径错误
+
+### 2021-01-06
+
+1. 删除全数据打卡
+2. 添加配合[web]((https://github.com/WindSnowLi/PunchCardWeb))打卡的功能
