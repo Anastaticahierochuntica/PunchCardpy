@@ -2,6 +2,7 @@
 
 import json
 from datetime import datetime
+import logging
 import os
 import sys
 import mysql.connector
@@ -10,8 +11,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(
 # __file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
 from plugin.zzut.zzut_rd_pubchcard import auto_rd_add_zzut_values
-from plugin.universal.read_json_file import read_json_file
 
+
+from plugin.universal.read_json_file import read_json_file
 def auto_web_rd_add_zzut_values():
     mysql_infor = read_json_file(BASE_DIR+"/zzut/data/mysql_infor.json")
 
@@ -40,7 +42,7 @@ def auto_web_rd_add_zzut_values():
                 continue
 
             school_user_infor.append(
-                {"dqwzmc": user['province']+user['city']+user['country'],
+                {"dqwzmc": str(user['province'])+str(user['city'])+str(user['country']),
                  "bjmc": user['clazz'], "xh": user['number'],
                  "szdwmc": user['academy'],
                  "dqwz": user['addressnumber'],
@@ -53,7 +55,8 @@ def auto_web_rd_add_zzut_values():
         auto_rd_add_zzut_values(BASE_DIR+"/zzut/data/temp_user_list.json")
         if os.path.exists(BASE_DIR+"/zzut/data/temp_user_list.json"):
             os.remove(BASE_DIR+"/zzut/data/temp_user_list.json")
-    except:
-        print("失败")
+    except Exception as e:
+        logging.ERROR(e)
+        print(e)
 
     connect.close()
