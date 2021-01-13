@@ -30,7 +30,7 @@ def get_cookies(url):
             driver.refresh()
             time.sleep(2)
             cookies = driver.get_cookies()
-            driver.close()
+            driver.quit()
 
             cookies_str = cookies[0]['name'] + \
                 "=" + cookies[0]['value']

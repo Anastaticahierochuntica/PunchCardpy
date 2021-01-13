@@ -92,3 +92,8 @@
 
 1. 删除全数据打卡
 2. 添加配合[web]((https://github.com/WindSnowLi/PunchCardWeb))打卡的功能
+
+### 2021-01-13
+
+1. 优化日志存储
+2. 修复浏览器驱动未关闭的BUG
