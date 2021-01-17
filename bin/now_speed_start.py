@@ -5,8 +5,7 @@
 import os
 import sys
 
-BASE_DIR = os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # __file__获取执行文件相对路径，整行为取上一级的上一级目录
 sys.path.append(BASE_DIR)
 from punchcardpy.main import auto_speed_pc_file, auto_web_speed_pc
