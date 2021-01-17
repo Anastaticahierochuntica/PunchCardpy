@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 
 echo "安装火狐浏览器"
 # 安装火狐浏览器
