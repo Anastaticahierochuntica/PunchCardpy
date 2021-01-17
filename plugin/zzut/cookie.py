@@ -3,6 +3,7 @@
 import logging
 from selenium.webdriver import Firefox
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
 import json
 import time
 import urllib.request
@@ -20,7 +21,11 @@ def get_login_cookie(login_url_number):
 
 def get_cookies(url):
     while True:
+        c_service = Service('geckodriver')
+        driver = any
         try:
+            c_service.command_line_args()
+            c_service.start()
             firefox_options = Options()
             # 不启动界面显示- linux下命令行模式必须启用
             firefox_options.add_argument('-headless')
@@ -30,8 +35,6 @@ def get_cookies(url):
             driver.refresh()
             time.sleep(2)
             cookies = driver.get_cookies()
-            driver.quit()
-
             cookies_str = cookies[0]['name'] + \
                 "=" + cookies[0]['value']
             return cookies_str
@@ -40,9 +43,13 @@ def get_cookies(url):
                 r'(?<=userAccount=)\d+\.?\d*').findall(url)[0]))
             logging.warning(identifier)
             time.sleep(5*60)
-
+        finally:
+            driver.quit()
+            c_service.stop()
 
 # 刷新cookie所属权
+
+
 def refresh_cookie(login_url_number, cookie):
     try:
         # 伪装成浏览器
