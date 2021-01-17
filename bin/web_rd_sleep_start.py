@@ -17,9 +17,9 @@ if __name__ == "__main__":
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
     DATE_FORMAT = "%m/%d/%Y %H:%M:%S %p"
 
-    logging.basicConfig(filename=BASE_DIR + "/zzut/log/run_rd_web.log",
+    logging.basicConfig(filename="../log/run_rd_web.log",
                         level=logging.WARNING, format=LOG_FORMAT, datefmt=DATE_FORMAT)
     sched = BlockingScheduler()
     sched.add_job(auto_web_rd_sleep_pc, 'cron',
-                  day_of_week='0-6', hour=6, minute=30)
+                  day_of_week='0-6', hour=21, minute=12)
     sched.start()
