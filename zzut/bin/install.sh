@@ -15,6 +15,7 @@ pip3 install fake_useragent
 pip3 install selenium
 pip3 install apscheduler
 pip3 install email
+pip install mysql-connector
 
 echo "安装运行时依赖"
 # 安装运行依赖
