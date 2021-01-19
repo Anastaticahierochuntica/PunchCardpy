@@ -49,6 +49,7 @@ case $pattern in
   nohup python3 "${project_path}"/now_speed_start.py >>../log/runtime.log 2>>../log/runtime.log &
   ;;
 6)
+  ps -aux | grep "send_mail_report_start" | grep -v grep | awk '{print "kill -9 "$2}' | sh
   nohup python3 "${project_path}"/send_mail_report_start.py >>../log/runtime.log 2>>../log/runtime.log &
   echo "邮件报告提示已开启"
   ;;
