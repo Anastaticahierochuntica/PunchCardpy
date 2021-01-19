@@ -9,6 +9,7 @@ echo "2. 开启文件随机分布打卡模式"
 echo "3. 开启配合WEB随机分布打卡模式"
 echo "4. 以上全部开启"
 echo "5. 立即打卡一次"
+echo "6. 开启邮件报告提示"
 # shellcheck disable=SC2162
 read -p "选择需要的模式：" pattern
 project_path=$(pwd)
@@ -46,5 +47,9 @@ case $pattern in
 5)
   echo "开始打卡"
   nohup python3 "${project_path}"/now_speed_start.py >>../log/runtime.log 2>>../log/runtime.log &
+  ;;
+6)
+  nohup python3 "${project_path}"/send_mail_report_start.py >>../log/runtime.log 2>>../log/runtime.log &
+  echo "邮件报告提示已开启"
   ;;
 esac

@@ -27,6 +27,13 @@ def send_mail(server, user, passwd, content, subject, to_user):
         logging.warning(e)
 
 
+def send_mail_use_config(mail_config_path, content):
+    mail_config = read_json_file(mail_config_path)
+    send_mail(mail_config['server'], mail_config['user'], mail_config['passwd'], content,
+              mail_config['subject'],
+              mail_config['to_user'])
+
+
 # 读取json文件
 def read_json_file(file_path):
     json_file = open(file_path, "r", encoding='UTF-8')

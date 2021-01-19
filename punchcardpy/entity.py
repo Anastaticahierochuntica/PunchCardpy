@@ -24,3 +24,19 @@ class People:
         self.addressnumber = self_information['addressnumber']
         self.address = self_information['province'] + self_information['city'] + self_information['country']
         self.status = self_information['status']
+
+
+class PCRecord:
+    """
+    日志实体
+    """
+    date = ''
+    pcstatuscode = ''
+    pcstatusmsg = ''
+    people = any
+
+    def __init__(self, pc_log_dict):
+        self.people = People(pc_log_dict)
+        self.date = pc_log_dict['pcdate']
+        self.pcstatuscode = pc_log_dict['pcstatuscode']
+        self.pcstatusmsg = pc_log_dict['pcstatusmsg']

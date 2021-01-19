@@ -3,11 +3,11 @@
 import random
 import time
 
-from punchcardpy.original_data import get_mysql_peoples, upload_log
+from punchcardpy.original_data import get_mysql_peoples, upload_log, get_mysql_logs
 from punchcardpy.entity import People
 from punchcardpy.splicing_data import pc
 from punchcardpy.connect_school import get_login_cookie, refresh_cookie
-from punchcardpy.my_utils import read_json_file
+from punchcardpy.my_utils import read_json_file, send_mail_use_config
 
 
 # 读取名单文件随机分配打卡
@@ -94,12 +94,25 @@ def analyse_status(results):
     if 'code' in results:
         if results['code'] == "-1":
             if results['message'] == "此时间已经填报！":
-                return {'pcstatus': '1', 'status': "此时间已经填报！"}
+                return {'pcstatuscode': '1', 'pcstatusmsg': "此时间已经填报！"}
             else:
-                return {'pcstatus': '-1', 'status': results['message']}
+                return {'pcstatuscode': '-1', 'pcstatusmsg': results['message']}
         elif results['code'] == "1":
-            return {'pcstatus': '1', 'status': "填报完成"}
+            return {'pcstatuscode': '1', 'pcstatusmsg': "填报完成"}
         else:
-            return {'pcstatus': '-1', 'status': results['message']}
+            return {'pcstatuscode': '-1', 'pcstatusmsg': results['message']}
     else:
-        return {'pcstatus': '-1', 'status': "填报失败"}
+        return {'pcstatuscode': '-1', 'pcstatusmsg': "填报失败"}
+
+
+def send_pc_table_mail(mail_config_path):
+    mail_config = read_json_file(mail_config_path)
+    table_css = mail_config['content_css']
+    table_head = "<table id=\"customers\"><tr><th>打卡学号</th><th>打卡邮箱</th><th>打卡时间</th><th>打卡状态</th><th>打卡返回信息</th></tr>"
+    table_content = ''
+    table_tail = "</table>"
+    for single_log in get_mysql_logs():
+        table_content += "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>" % (
+            single_log.people.number, single_log.people.email, single_log.date, single_log.pcstatuscode,
+            single_log.pcstatusmsg)
+    send_mail_use_config(mail_config_path, table_css + table_head + table_content + table_tail)

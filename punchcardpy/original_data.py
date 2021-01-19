@@ -3,7 +3,7 @@ import datetime
 
 import mysql.connector
 
-from punchcardpy.entity import People
+from punchcardpy.entity import People, PCRecord
 from punchcardpy.my_utils import read_json_file
 
 
@@ -42,6 +42,27 @@ def get_mysql_peoples():
     return user_list
 
 
+def get_mysql_logs():
+    connect = get_mysql_connect()
+    # 获取数据库操作游标
+    myCursor = connect.cursor()
+    logs = []
+    try:
+        sql = 'select *  from infor inner join pclog USING (email,number) where ' \
+              'infor.number=pclog.number and infor.email=pclog.email and pclog.pcdateid={0}'.format(datetime.datetime.now().strftime("%Y%m%d"))
+        # 执行sql语句
+        myCursor.execute(sql)
+        results = myCursor.fetchall()
+        columns = [column[0] for column in myCursor.description]
+        for row in results:
+            logs.append(PCRecord(dict(zip(columns, row))))
+    except Exception as e:
+        print(e)
+    myCursor.close()
+    connect.close()
+    return logs
+
+
 def void_operation_mysql(sql, var):
     connect = get_mysql_connect()
     myCursor = connect.cursor()
@@ -57,8 +78,8 @@ def void_operation_mysql(sql, var):
 
 def upload_log(user, results):
     void_operation_mysql('INSERT INTO `punchcard`.`pclog`'
-                         '(`dateid`, `date`, `email`, `number`, `pcstatus`, `status`) VALUES '
+                         '(`dateid`, `date`, `email`, `number`, `pcstatuscode`, `pcstatusmsg`) VALUES '
                          '(%s, %s, %s, %s, %s, %s)',
                          (datetime.datetime.now().strftime("%Y%m%d"),
                           datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                          user.email, user.number, results['pcstatus'], results['status']))
+                          user.email, user.number, results['pcstatuscode'], results['pcstatusmsg']))
