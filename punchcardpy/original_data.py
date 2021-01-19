@@ -78,7 +78,7 @@ def void_operation_mysql(sql, var):
 
 def upload_log(user, results):
     void_operation_mysql('INSERT INTO `punchcard`.`pclog`'
-                         '(`dateid`, `date`, `email`, `number`, `pcstatuscode`, `pcstatusmsg`) VALUES '
+                         '(`pcdateid`, `pcdate`, `email`, `number`, `pcstatuscode`, `pcstatusmsg`) VALUES '
                          '(%s, %s, %s, %s, %s, %s)',
                          (datetime.datetime.now().strftime("%Y%m%d"),
                           datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
