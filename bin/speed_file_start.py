@@ -20,5 +20,5 @@ if __name__ == "__main__":
                         datefmt=DATE_FORMAT)
     sched = BlockingScheduler()
     sched.add_job(auto_speed_pc_file, 'cron',
-                  day_of_week='0-6', hour=21, minute=10, args=["./data/peoples.json"])
+                  day_of_week='0-6', hour=6, minute=30, args=["./data/peoples.json"])
     sched.start()

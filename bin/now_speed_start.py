@@ -10,6 +10,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(BASE_DIR)
 from punchcardpy.main import auto_speed_pc_file, auto_web_speed_pc
 
+auto_web_speed_pc()
 # 基础数据快速打卡，数据路径为../punchcardpy/data/peoples.json
 auto_speed_pc_file('./data/peoples.json')
-auto_web_speed_pc()
