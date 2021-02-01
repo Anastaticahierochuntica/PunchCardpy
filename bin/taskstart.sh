@@ -10,6 +10,7 @@ echo "3. 开启配合WEB随机分布打卡模式"
 echo "4. 以上全部开启"
 echo "5. 立即打卡一次"
 echo "6. 开启邮件报告提示"
+echo "7. 开启配合WEB快速随机分布打卡模式"
 # shellcheck disable=SC2162
 read -p "选择需要的模式：" pattern
 project_path=$(pwd)
@@ -52,5 +53,10 @@ case $pattern in
   ps -aux | grep "send_mail_report_start" | grep -v grep | awk '{print "kill -9 "$2}' | sh
   nohup python3 "${project_path}"/send_mail_report_start.py >>../log/runtime.log 2>>../log/runtime.log &
   echo "邮件报告提示已开启"
+  ;;
+7)
+  ps -aux | grep "web_rd_speed_start" | grep -v grep | awk '{print "kill -9 "$2}' | sh
+  nohup python3 "${project_path}"/web_rd_speed_start.py >>../log/runtime.log 2>>../log/runtime.log &
+  echo "配合WEB快速随机分布打卡模式已开启"
   ;;
 esac
