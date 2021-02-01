@@ -6,7 +6,6 @@ import time
 from punchcardpy.original_data import get_mysql_peoples, upload_log, get_mysql_logs
 from punchcardpy.entity import People
 from punchcardpy.splicing_data import pc
-from punchcardpy.connect_school import get_login_cookie, refresh_cookie
 from punchcardpy.my_utils import read_json_file, send_mail_use_config
 
 
@@ -33,16 +32,11 @@ def auto_rd_sleep_pc_list(peoples):
         interval_time = interval_time - 20
 
     for people in peoples:
-        login_url_cookie = get_login_cookie(people.number)
-        base_heat = [36.5, 36.5, 36.5]
-        for i in range(0, 3):
-            base_heat[i] += random.choice([0.3, 0.2, 0.1, 0, -0.1])
-        results = pc(people, cookie=login_url_cookie, animal_heat=base_heat)
+        results = pc(people)
         if 'code' in results:
             if results['code'] != "1":
-                # 有几率是已经打过卡造成的异常，但以防万一，重新获取专属cookie打卡一次
-                login_url_cookie = get_login_cookie(people.number)
-                results = pc(student=people, cookie=login_url_cookie)
+                # 有几率是已经打过卡造成的异常，但以防万一，重新打卡一次
+                results = pc(student=people)
         upload_log(people, analyse_status(results=results))
         time.sleep(interval_time)
 
@@ -54,23 +48,13 @@ def auto_web_rd_sleep_pc():
 
 # 直接使用名单列表快速打卡
 def auto_speed_pc_list(peoples):
-    login_url_cookie = ''
     # 循环执行打卡
     for people in peoples:
-
-        if login_url_cookie == '':
-            # 获取的是当前帐号的专属cookie
-            login_url_cookie = get_login_cookie(people.number)
-        else:
-            # 如果不为空，刷新cookie所有权
-            refresh_cookie(login_url_number=people.number, cookie=login_url_cookie)
-
-        results = pc(student=people, cookie=login_url_cookie)
+        results = pc(student=people)
         if 'code' in results:
             if results['code'] != "1":
-                # 有几率是已经打过卡造成的异常，但以防万一，重新获取专属cookie打卡一次
-                login_url_cookie = get_login_cookie(people.number)
-                results = pc(student=people, cookie=login_url_cookie)
+                # 有几率是已经打过卡造成的异常，但以防万一，重新打卡一次
+                results = pc(student=people)
         upload_log(people, analyse_status(results=results))
 
 
