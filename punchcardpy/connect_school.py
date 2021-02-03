@@ -8,7 +8,6 @@ from urllib import request
 import time
 import json
 
-from fake_useragent import UserAgent
 from pip._vendor import requests
 
 
@@ -66,3 +65,25 @@ def send_request(data):
         print(identifier)
         logging.warning("{0}  请求出错".format(data['xh']))
         time.sleep(5 * 60)
+
+# 将用户信息设置为官方信息，web端已经设定过，可不再调用；使用文件信息时推荐调用
+def setUserBase(people):
+    try:
+        url = 'http://sjgl.zzut.edu.cn/gxxs/xsjbxx101/getByXsxx.json'
+        data = {"xhId": "{0}".format(people.number)}
+        headers = {'Cookie': get_login_cookie(people.number), 'Accept-Encoding': 'gzip',
+                   'Content-Type': 'application/json;charset=UTF-8'}
+        req = urllib.request.Request(url=url, headers=headers, data=json.dumps(
+            data).encode(encoding='UTF8'))  # 需要通过encode设置编码 要不会报错
+        response = request.urlopen(req)  # 发送请求
+
+        logInfo = response.read().decode()  # 读取对象 将返回的二进制数据转成string类型
+
+        return_code = json.loads(logInfo)
+        people.academy = return_code['dwmc']
+        people.clazz = return_code['bjmc']
+        people.name = return_code['xm']
+    except Exception as identifier:
+        print(identifier)
+        logging.warning("{0}  设置基础信息请求出错".format(people.number))
+        time.sleep(60)
