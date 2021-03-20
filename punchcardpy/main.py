@@ -3,6 +3,7 @@
 import random
 import time
 
+from punchcardpy.connect_school import setUserBase
 from punchcardpy.original_data import get_mysql_peoples, upload_log, get_mysql_logs
 from punchcardpy.entity import People
 from punchcardpy.splicing_data import pc
@@ -32,6 +33,8 @@ def auto_rd_sleep_pc_list(peoples):
         interval_time = interval_time - 20
 
     for people in peoples:
+        # 设置基础信息为官方信息
+        setUserBase(people)
         results = pc(people)
         if 'code' in results:
             if results['code'] != "1":
@@ -50,6 +53,8 @@ def auto_web_rd_sleep_pc():
 def auto_speed_pc_list(peoples):
     # 循环执行打卡
     for people in peoples:
+        # 设置基础信息为官方信息
+        setUserBase(people)
         results = pc(student=people)
         if 'code' in results:
             if results['code'] != "1":

@@ -1,0 +1,19 @@
+{
+    "mails": [
+        {
+            "server": "smtp.163.com",
+            "user": "****@163.com",
+            "passwd": "***"
+        },
+        {
+            "server": "smtp.163.com",
+            "user": "****@163.com",
+            "passwd": "****"
+        },
+        {
+            "server": "smtp.qq.com",
+            "user": "***@qq.com",
+            "passwd": "****"
+        }
+    ]
+}
