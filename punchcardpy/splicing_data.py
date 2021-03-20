@@ -5,7 +5,7 @@ import random
 from punchcardpy.connect_school import send_request
 
 
-# 打卡
+#
 # address当前位置名称
 # class_and_grade 班级名称
 # current_position_number 当前位置行政编码，不是邮编
@@ -13,6 +13,12 @@ from punchcardpy.connect_school import send_request
 # academy 学院
 # animal_heat 体温元组
 def pc(student, animal_heat=None):
+    """
+    打卡
+    :param student: 打卡对象
+    :param animal_heat: 体温
+    :return: 返回码
+    """
     # 目前已知的url提交链接
     if animal_heat is None:
         animal_heat = [i + random.choice([0.3, 0.2, 0.1, 0, -0.1]) for i in [36.5, 36.5, 36.5]]
