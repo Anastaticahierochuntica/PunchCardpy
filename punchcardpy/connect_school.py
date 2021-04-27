@@ -80,9 +80,9 @@ def setUserBase(people):
         logInfo = response.read().decode()  # 读取对象 将返回的二进制数据转成string类型
 
         return_code = json.loads(logInfo)
-        people.academy = return_code['dwmc']
-        people.clazz = return_code['bjmc']
-        people.name = return_code['xm']
+        people.academy = return_code['xxjbxx']['dwmc']
+        people.clazz = return_code['xxjbxx']['bjmc']
+        people.name = return_code['xxjbxx']['xm']
     except Exception as identifier:
         print(identifier)
         logging.warning("{0}  设置基础信息请求出错".format(people.number))
