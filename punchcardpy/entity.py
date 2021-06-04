@@ -13,6 +13,7 @@ class People:
     addressnumber = ''
     address = ''
     status = ''
+    code = ''
 
     def __init__(self, self_information):
         self.data = self_information
@@ -24,6 +25,7 @@ class People:
         self.addressnumber = self_information['addressnumber']
         self.address = self_information['province'] + self_information['city'] + self_information['country']
         self.status = self_information['status']
+        self.code = self_information['code']
 
 
 class PCRecord:

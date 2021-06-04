@@ -34,7 +34,7 @@ def pc(student, animal_heat=None):
               "xwtw": animal_heat[0], "fdyxm": "", "yczt": "", "fyq": 0}
     # 请求头原型,可根据自己实际自行添加键值对{'Cookie': '', 'Accept-Encoding': '', 'Content-Type': ''}
 
-    return send_request(data=values)
+    return send_request(data=values, student=student)
 
 
 # value是完整的数据条，数据条有个id，那是指定哪一条数据的关键
