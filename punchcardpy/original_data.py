@@ -14,7 +14,8 @@ def get_mysql_connect():
         host=mysql_config["host"],  # 数据库主机地址
         user=mysql_config["user"],  # 数据库用户名
         passwd=mysql_config["passwd"],  # 数据库密码
-        database=mysql_config["database"]  # 要连接的数据库
+        database=mysql_config["database"],  # 要连接的数据库
+        auth_plugin="mysql_native_password" # 解决远程数据库链接验证错误，酌情使用
     )
     return connect
 
@@ -49,7 +50,8 @@ def get_mysql_logs():
     logs = []
     try:
         sql = 'select *  from infor inner join pclog USING (email,number) where ' \
-              'infor.number=pclog.number and infor.email=pclog.email and pclog.pcdateid={0}'.format(datetime.datetime.now().strftime("%Y%m%d"))
+              'infor.number=pclog.number and infor.email=pclog.email and pclog.pcdateid={0}'.format(
+            datetime.datetime.now().strftime("%Y%m%d"))
         # 执行sql语句
         myCursor.execute(sql)
         results = myCursor.fetchall()

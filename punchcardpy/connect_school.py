@@ -61,7 +61,7 @@ def get_login_cookie(login_url_number):
 # 用于添加当前时间点的打卡记录的
 def send_request(data, student):
     try:
-        url = 'http://sjgl.zzut.edu.cn/gx/gxxs/jkzk/saveOrEdit.json'
+        url = 'http://sjgl.zzut.edu.cn/gx/gxxs/jkzk/saveEdit.json'
         headers = HEADERS.copy()
 
         headers['Cookie'] = get_login_cookie(student.code)
